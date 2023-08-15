@@ -31,7 +31,14 @@ func main() {
 	AllowCredentials: false,
 	MaxAge:           300,
 }))
+ 
+ v1router := chi.NewRouter()
 
+ v1router.Get("/healthz", handlerReadiness)
+ v1router.Get("/err", handlerErr)
+
+ router.Mount("/v1", v1router)
+ 
  serve := &http.Server{
 	Handler: router,
 	Addr: ":" + portString,
